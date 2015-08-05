@@ -31,5 +31,9 @@ sudo python /home/pi/tsp/tsp_timer.py 2>&1 > /tmp/tsp_timer.log &
 
 sudo python /home/pi/tsp/tsp_dual_pressure.py 2>&1 > /tmp/tsp_dual_pressure.log &
 
+sudo mount /dev/sda1 /mnt/flash
+
+sudo /home/pi/tsp/tsp_log
+
 exit 0
 

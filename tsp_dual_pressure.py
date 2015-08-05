@@ -94,6 +94,6 @@ while True:
 
   # alarm
   
-
+  sys.stdout.flush()
   time.sleep(1.0)
 
