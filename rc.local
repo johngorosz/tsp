@@ -19,21 +19,23 @@ fi
 
 # RTC
 echo ds1307 0x68 > /sys/class/i2c-adapter/i2c-1/new_device
-sudo hwclock -s
+sudo hwclock -s &
 
 # run clock
 
 sudo python /home/pi/tsp/tsp_clock.py 2>&1 > /tmp/tsp_clock.log &
 
-sudo /etc/init.d/tsp_led start 2>&1 > /tmp/tsp_led.log
+sudo /etc/init.d/tsp_led start 2>&1 > /tmp/tsp_led.log &
 
 sudo python /home/pi/tsp/tsp_timer.py 2>&1 > /tmp/tsp_timer.log &
 
 sudo python /home/pi/tsp/tsp_dual_pressure.py 2>&1 > /tmp/tsp_dual_pressure.log &
 
-sudo mount /dev/sda1 /mnt/flash
+sudo python /home/pi/tsp/tsp_eng_temp.py 2>&1 > /tmp/tsp_eng_temp.log &
 
-sudo /home/pi/tsp/tsp_log
+sudo mount /dev/sda1 /mnt/flash &
+
+sudo /home/pi/tsp/tsp_log &
 
 exit 0
 

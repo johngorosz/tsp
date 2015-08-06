@@ -4,15 +4,16 @@ import time
 import datetime
 
 import Adafruit_GPIO.SPI as SPI
-import Adafruit_MAX31855.MAX31855 as MAX31855
+#import Adafruit_MAX31855.MAX31855 as MAX31855
+from MAX31855 import MAX31855
 
 from Adafruit_7Segment import SevenSegment
 from Adafruit_LEDBackpack import LEDBackpack
 
-segment = SevenSegment(address=0x71)
-backpack = LEDBackpack(address=0x71)
+segment = SevenSegment(address=0x72)
+backpack = LEDBackpack(address=0x72)
 
-backpack.setBrightness(1)
+backpack.setBrightness(15)
 
 # Define a function to convert celsius to fahrenheit.
 def c_to_f(c):
@@ -22,7 +23,8 @@ def c_to_f(c):
 CLK = 24
 CS  = 23
 DO  = 18
-sensor = MAX31855.MAX31855(CLK, CS, DO)
+#sensor = MAX31855.MAX31855(CLK, CS, DO)
+sensor = MAX31855(CLK, CS, DO)
 
 
 # ===========================================================================
