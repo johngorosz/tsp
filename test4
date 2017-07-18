@@ -1,0 +1,115 @@
+#!/bin/bash
+
+# designed for TSP 7" HDMI display
+# dimensions (char):
+#   columns (x) 64
+#   lines   (y) 41
+
+#LARGE_PRINT="figlet -f banner"
+#FONT="mono12.tlf"
+FONT="mono9.tlf"
+LARGE_PRINT="figlet -f $FONT"
+LARGE_ROWS=7
+
+height=$(tput lines)
+width=$(tput cols)
+
+BG_WHITE="$(tput setab 7)"
+BG_BLACK="$(tput setab 0)"
+FG_BLACK="$(tput setaf 0)"
+FG_RED="$(tput setaf 1)"
+FG_GREEN="$(tput setaf 2)"
+FG_YELLOW="$(tput setaf 3)"
+FG_BLUE="$(tput setaf 4)"
+FG_MAGENTA="$(tput setaf 5)"
+FG_CYAN="$(tput setaf 6)"
+FG_WHITE="$(tput setaf 7)"
+
+########################
+# initialization
+
+# Save screen
+tput smcup
+echo -n ${BG_WHITE}${FG_BLACK}
+clear
+
+function h_line
+{
+  for i in $(seq 1 $width); do
+    echo -n "_"
+  done
+}
+
+# Display menu until selection == 0
+#while [[ $REPLY != 0 ]]; do
+while : ; do
+#  echo -n ${BG_BLUE}${FG_BLACK}
+#  clear
+
+  #############################################################
+  # left side
+  tput cup 0 0
+  num_col_r=36
+
+  # oil psi
+  oil_psi=$(awk 'BEGIN{printf "%3.1f\n", (rand()*60.0 + 20)}')
+  $LARGE_PRINT -w $num_col_r -r $oil_psi
+#  tput cuu1;
+  tput cuu1; h_line
+
+echo -n ${BG_WHITE}${FG_RED}
+  water_psi=$(awk 'BEGIN{printf "%3.1f\n", (rand()*10.0)}')
+  $LARGE_PRINT -w $num_col_r -r "$water_psi"
+#  tput cuu1;tput cuu1
+  tput cuu1; h_line
+echo -n ${BG_WHITE}${FG_BLACK}
+
+  oil_temp=$(awk 'BEGIN{printf "%3.1f\n", (rand()*100.0+150.0)}')
+  $LARGE_PRINT -w $num_col_r -r "$oil_temp"
+#  tput cuu1;tput cuu1
+  tput cuu1; h_line
+
+  water_temp=$(awk 'BEGIN{printf "%3.1f\n", (rand()*50.0+150.0)}')
+  $LARGE_PRINT -w $num_col_r -r "$water_temp"
+#  tput cuu1;tput cuu1
+  tput cuu1; h_line
+
+  eng_temp=$(awk 'BEGIN{printf "%3.1f\n", (rand()*20.0+150.0)}')
+  $LARGE_PRINT -w $num_col_r -r "$eng_temp"
+
+  #############################################################
+  # right side
+  RIGHT_START_COL=54
+  sm_off=3
+  tput cup $(((LARGE_ROWS + 1) * 0 + $sm_off)) $RIGHT_START_COL
+  #tput bold
+  echo -n "Oil PSI"
+  #tput sgr0
+
+  tput cup $(((LARGE_ROWS + 1) * 1 + $sm_off)) $RIGHT_START_COL
+  echo -n "Water PSI"
+  tput cup $(((LARGE_ROWS + 1) * 2 + $sm_off)) $RIGHT_START_COL
+  echo -n "Oil Temp"
+  tput cup $(((LARGE_ROWS + 1) * 3 + $sm_off)) $RIGHT_START_COL
+  echo -n "Water Temp"
+  tput cup $(((LARGE_ROWS + 1) * 4 + $sm_off)) $RIGHT_START_COL
+  echo -n "Eng Temp"
+  #tput cup $(((LARGE_ROWS + 1) * 5 + $sm_off)) $RIGHT_START_COL
+  #echo -n "Eng Temp 2"
+
+  tput civis
+
+  # get input
+#  read -p "" c
+#  case $c in
+#    q) break ;;
+#    *) : ;;
+#  esac
+
+#  sleep 1
+
+done
+
+# Restore screen
+tput rmcup
+tput cnorm
