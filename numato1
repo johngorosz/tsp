@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# numato gpio test
+
+   
+DEV="/dev/ttyACM0"
+# 8 bit hex string
+#   set to 1 for ADC, 0 for output
+IODIR=01
+
+function numato_cmd
+{
+  
+  echo -en "$1\r" | sudo socat -T 1 - $DEV,raw,echo=0
+}
+
+function get_ver
+{
+  numato_cmd "ver" | sed -n '2p'
+}
+
+function set_iodir
+{
+  numato_cmd "gpio iodir $IODIR" > /dev/null
+}
+
+function get_adc
+{
+  numato_cmd "adc read 0" | sed -n '2p'
+}
+
+get_ver
+set_iodir
+get_adc
+
